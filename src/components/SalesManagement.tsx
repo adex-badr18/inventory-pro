@@ -205,7 +205,7 @@ export function SalesManagement({ user, currentBranch = 'main' }: SalesManagemen
   const removeSaleItem = (id: string) =>
     setSaleItems((prev) => (prev.length === 1 ? prev : prev.filter((item) => item.id !== id)));
 
-  const updateSaleItem = (id: string, field: keyof SaleLineItem, value: any) => {
+  const updateSaleItem = <K extends keyof SaleLineItem>(id: string, field: keyof SaleLineItem, value: SaleLineItem[K]) => {
     setSaleItems((prev) =>
       prev.map((item) => {
         if (item.id !== id) return item;
@@ -216,13 +216,16 @@ export function SalesManagement({ user, currentBranch = 'main' }: SalesManagemen
         if (field === 'productId' && value) {
           updated.batchId = '';
           updated.sellingPrice = 0;
-          const batches = getBatchesForProduct(value, activeBranch);
+
+          const productId = value as string;
+          const batches = getBatchesForProduct(productId, activeBranch);
           setItemBatches(prev => ({ ...prev, [id]: batches }));
         }
         
         // If batch changed, suggest the selling price from batch
         if (field === 'batchId' && value) {
-          const batch = getBatchById(value);
+          const batchId = value as string;
+          const batch = getBatchById(batchId);
           if (batch && batch.sellingPrice) {
             updated.sellingPrice = batch.sellingPrice;
           }
@@ -388,8 +391,8 @@ export function SalesManagement({ user, currentBranch = 'main' }: SalesManagemen
           </div>
 
           {/* Drawer Content (right side) */}
-          <DrawerContent position="right" size="lg" className="flex flex-col max-h-screen" aria-describedby="drawer-description">
-            <DrawerHeader className="flex-shrink-0 border-b">
+          <DrawerContent className="flex flex-col max-h-screen" aria-describedby="drawer-description">
+            <DrawerHeader className="shrink-0 border-b">
               <DrawerTitle>Create Sales Invoice</DrawerTitle>
               <DrawerDescription id="drawer-description">
                 Fill out the form below to create a new sales invoice for your customer
@@ -639,7 +642,7 @@ export function SalesManagement({ user, currentBranch = 'main' }: SalesManagemen
             </div>
 
             {/* Fixed Footer with Action Buttons */}
-            <div className="flex-shrink-0 border-t bg-white p-4 space-y-3">
+            <div className="shrink-0 border-t bg-white p-4 space-y-3">
               <div className="flex justify-end gap-3">
                 <Button 
                   type="button"
@@ -736,7 +739,7 @@ export function SalesManagement({ user, currentBranch = 'main' }: SalesManagemen
           <span className="text-sm">From:</span>
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="outline" className="w-[160px] justify-between">
+              <Button variant="outline" className="w-40 justify-between">
                 {dateFrom ? format(dateFrom, "PPP") : "Pick date"}
                 <CalendarIcon className="w-4 h-4 opacity-60" />
               </Button>

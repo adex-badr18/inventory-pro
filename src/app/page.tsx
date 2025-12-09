@@ -11,7 +11,7 @@ import { BranchManagement } from "../components/BranchManagement";
 import { BranchDetails } from "../components/BranchDetails";
 import { SalesManagement } from "../components/SalesManagement";
 import { ReportsAnalytics } from "../components/ReportsAnalytics";
-import { FigmaExport } from "../components/FigmaExport";
+// import { FigmaExport } from "../components/FigmaExport";
 import { StockTransfer } from "../components/StockTransfer";
 import { RequireRole } from "../components/RequireRole";
 import { Toaster } from "../components/ui/sonner";
@@ -44,7 +44,7 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentView, setCurrentView] = useState("dashboard");
   const [currentBranch, setCurrentBranch] = useState("main");
-  const [showFigmaExport, setShowFigmaExport] = useState(false);
+  // const [showFigmaExport, setShowFigmaExport] = useState(false);
   const [selectedBranchForDetails, setSelectedBranchForDetails] = useState<string | null>(null);
   const [isStockTransferOpen, setIsStockTransferOpen] = useState(false);
   const [inventory, setInventory] = useState<InventoryItem[]>(initialInventory);
@@ -195,22 +195,22 @@ export default function App() {
   };
 
   // Show Figma Export view
-  if (showFigmaExport) {
-    return (
-      <>
-        <div className="fixed top-4 right-4 z-50">
-          <Button
-            onClick={() => setShowFigmaExport(false)}
-            className="bg-blue-600 hover:bg-blue-700"
-          >
-            Exit Figma Export
-          </Button>
-        </div>
-        <FigmaExport />
-        <Toaster />
-      </>
-    );
-  }
+  // if (showFigmaExport) {
+  //   return (
+  //     <>
+  //       <div className="fixed top-4 right-4 z-50">
+  //         <Button
+  //           onClick={() => setShowFigmaExport(false)}
+  //           className="bg-blue-600 hover:bg-blue-700"
+  //         >
+  //           Exit Figma Export
+  //         </Button>
+  //       </div>
+  //       <FigmaExport />
+  //       <Toaster />
+  //     </>
+  //   );
+  // }
 
   if (!isLoggedIn) {
     return (
